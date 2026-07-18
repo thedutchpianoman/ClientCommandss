@@ -1,0 +1,27 @@
+name: Build ClientCommands Plugin
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore dependencies
+        run: dotnet restore ClientCommands/ClientCommands.csproj
+      - name: Build
+        run: dotnet build ClientCommands/ClientCommands.csproj -c Release --no-restore
+      - name: Upload ClientCommands.dll
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClientCommands
+          path: ClientCommands/bin/Release/net48/ClientCommands.dll
+          if-no-files-found: error
