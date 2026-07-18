@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- EXILED 8.x targets .NET Framework 4.8 -->
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>ClientCommands</AssemblyName>
+    <RootNamespace>ClientCommands</RootNamespace>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Authors>YourName</Authors>
+    <Description>SCP:SL EXILED plugin — client commands and automatic candy distribution.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      EXILED publishes NuGet packages. These bring in:
+        - Exiled.API       (Plugin, Player, Log, Timing, Items, Toys …)
+        - Exiled.Events    (Handlers.Player, Handlers.Server …)
+        - MEC              (Timing coroutines)
+        - Assembly-CSharp  (SCP:SL game assemblies — stubs for compilation)
+    -->
+    <PackageReference Include="Exiled.API"    Version="8.*" />
+    <PackageReference Include="Exiled.Events" Version="8.*" />
+  </ItemGroup>
+
+</Project>
