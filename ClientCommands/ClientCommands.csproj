@@ -1,61 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyName>ClientCommands</AssemblyName>
     <RootNamespace>ClientCommands</RootNamespace>
-    <GamePath     Condition="'$(GamePath)'     == ''">C:\scpsl</GamePath>
-    <ExiledPath   Condition="'$(ExiledPath)'   == ''">C:\exiled</ExiledPath>
-    <GameManaged>$(GamePath)\SCPSL_Data\Managed</GameManaged>
+    <GameManaged Condition="'$(GameManaged)' == ''">C:\scpsl\SCPSL_Data\Managed</GameManaged>
+    <ExiledPath  Condition="'$(ExiledPath)'  == ''">C:\exiled</ExiledPath>
   </PropertyGroup>
-
   <ItemGroup>
-    <Reference Include="Exiled.API">
-      <HintPath>$(ExiledPath)\Exiled.API.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Exiled.Events">
-      <HintPath>$(ExiledPath)\Exiled.Events.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="MEC">
-      <HintPath>$(ExiledPath)\MEC.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="0Harmony">
-      <HintPath>$(ExiledPath)\0Harmony.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(GameManaged)\Assembly-CSharp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>$(GameManaged)\Assembly-CSharp-firstpass.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>$(GameManaged)\UnityEngine.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(GameManaged)\UnityEngine.CoreModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Mirror">
-      <HintPath>$(GameManaged)\Mirror.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="CommandSystem.Core">
-      <HintPath>$(GameManaged)\CommandSystem.Core.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="PluginAPI">
-      <HintPath>$(GameManaged)\PluginAPI.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+    <Reference Include="Exiled.API"><HintPath>$(ExiledPath)\Exiled.API.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Exiled.Events"><HintPath>$(ExiledPath)\Exiled.Events.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="MEC"><HintPath>$(ExiledPath)\MEC.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(ExiledPath)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(GameManaged)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp-firstpass"><HintPath>$(GameManaged)\Assembly-CSharp-firstpass.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(GameManaged)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(GameManaged)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Mirror"><HintPath>$(GameManaged)\Mirror.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="CommandSystem.Core"><HintPath>$(GameManaged)\CommandSystem.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="PluginAPI"><HintPath>$(GameManaged)\PluginAPI.dll</HintPath><Private>false</Private></Reference>
   </ItemGroup>
-
 </Project>
