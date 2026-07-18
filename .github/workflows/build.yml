@@ -8,17 +8,46 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Restore dependencies
-        run: dotnet restore ClientCommands/ClientCommands.csproj
+
+      - name: Download SCP:SL Dedicated Server
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path C:\steamcmd | Out-Null
+          Invoke-WebRequest "https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip" -OutFile C:\steamcmd\steamcmd.zip
+          Expand-Archive C:\steamcmd\steamcmd.zip -DestinationPath C:\steamcmd -Force
+          C:\steamcmd\steamcmd.exe +quit
+          C:\steamcmd\steamcmd.exe +login anonymous +force_install_dir C:\scpsl +app_update 996560 +quit
+          $dll = Get-ChildItem "C:\scpsl" -Recurse -Filter "Assembly-CSharp.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($dll) { echo "GAME_MANAGED=$($dll.DirectoryName)" >> $env:GITHUB_ENV }
+          else { Get-ChildItem "C:\scpsl" -Recurse -Depth 3 | Select-Object FullName; exit 1 }
+
+      - name: Download EXILED
+        shell: pwsh
+        run: |
+          $release = Invoke-RestMethod "https://api.github.com/repos/ExMod-Team/EXILED/releases/latest"
+          $asset = $release.assets | Where-Object { $_.name -match "\.(zip|tar\.gz)$" } | Select-Object -First 1
+          Invoke-WebRequest $asset.browser_download_url -OutFile "C:\exiled_release"
+          New-Item -ItemType Directory -Force -Path C:\exiled | Out-Null
+          if ($asset.name -like "*.tar.gz") { tar -xzf C:\exiled_release -C C:\exiled }
+          else { Expand-Archive C:\exiled_release -DestinationPath C:\exiled -Force }
+          $dll = Get-ChildItem "C:\exiled" -Recurse -Filter "Exiled.API.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($dll) { echo "EXILED_PATH=$($dll.DirectoryName)" >> $env:GITHUB_ENV }
+          else { Get-ChildItem "C:\exiled" -Recurse | Select-Object FullName; exit 1 }
+
       - name: Build
-        run: dotnet build ClientCommands/ClientCommands.csproj -c Release --no-restore
+        shell: pwsh
+        run: |
+          dotnet build ClientCommands/ClientCommands.csproj -c Release -p:GameManaged="$env:GAME_MANAGED" -p:ExiledPath="$env:EXILED_PATH"
+
       - name: Upload ClientCommands.dll
         uses: actions/upload-artifact@v4
         with:
